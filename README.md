@@ -8,6 +8,7 @@
 [![Framework: Flutter](https://img.shields.io/badge/Framework-Flutter-02569B.svg?style=flat&logo=flutter)](https://flutter.dev)
 [![Platform: Android](https://img.shields.io/badge/Platform-Android-green.svg)](#)
 [![Privacy: 100% Offline](https://img.shields.io/badge/Privacy-100%25%20Offline-success.svg)](#)
+[![Open Source](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 Most workout apps want you to engage with them. **Grit just wants you to lift.**
 
