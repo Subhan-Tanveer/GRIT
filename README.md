@@ -10,6 +10,16 @@ Open the app, log your workout, close it. That's the whole idea. No account requ
 
 ---
 
+## 📱 Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/home.png" width="30%" alt="Home Screen" />
+  <img src="docs/screenshots/workout.png" width="30%" alt="Workout Session" />
+  <img src="docs/screenshots/profile.png" width="30%" alt="Metrics and Charts" />
+</p>
+
+---
+
 ## ✨ Features
 
 - **⚡ Fast Logging**: Record your sets, reps, and weights in seconds with a high-density, zero-friction interface.
