@@ -9,6 +9,7 @@
 [![Platform: Android](https://img.shields.io/badge/Platform-Android-green.svg)](#)
 [![Privacy: 100% Offline](https://img.shields.io/badge/Privacy-100%25%20Offline-success.svg)](#)
 [![Open Source](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![Focus: Strength Training](https://img.shields.io/badge/Focus-Strength%20Training-red.svg)](#)
 
 Most workout apps want you to engage with them. **Grit just wants you to lift.**
 
