@@ -48,6 +48,7 @@ app.*.map.json
 # Windows and asset icons
 desktop.ini
 /*.ico
+/*.apk
 
 # Agent-specific directories and files
 .agents/
