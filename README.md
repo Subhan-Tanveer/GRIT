@@ -11,7 +11,7 @@
 [![Open Source](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 [![Focus: Strength Training](https://img.shields.io/badge/Focus-Strength%20Training-red.svg)](#)
 
-Most workout apps want you to engage with them. **Grit just wants you to lift.**
+Most workout apps want you to engage with them. **Grit just wants you to lift and track.**
 
 Open the app, log your workout, close it. That's the whole idea. No account required, no data leaves your phone, no streaks, no badges, and no daily reminders. Just a clean, high-performance log of everything you've lifted.
 
