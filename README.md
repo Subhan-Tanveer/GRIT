@@ -1,6 +1,6 @@
 # 🏋️‍♂️ Grit — Offline Workout Tracker
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Platform: Android](https://img.shields.io/badge/Platform-Android-green.svg)](#)
 [![Privacy: 100% Offline](https://img.shields.io/badge/Privacy-100%25%20Offline-success.svg)](#)
 
