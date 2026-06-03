@@ -1,6 +1,11 @@
+<p align="center">
+  <img src="docs/screenshots/grit_splash_00000.png" width="140" alt="Grit Logo" />
+</p>
+
 # 🏋️‍♂️ Grit — Offline Workout Tracker
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![Framework: Flutter](https://img.shields.io/badge/Framework-Flutter-02569B.svg?style=flat&logo=flutter)](https://flutter.dev)
 [![Platform: Android](https://img.shields.io/badge/Platform-Android-green.svg)](#)
 [![Privacy: 100% Offline](https://img.shields.io/badge/Privacy-100%25%20Offline-success.svg)](#)
 
@@ -13,9 +18,9 @@ Open the app, log your workout, close it. That's the whole idea. No account requ
 ## 📱 Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/home.png" width="30%" alt="Home Screen" />
-  <img src="docs/screenshots/workout.png" width="30%" alt="Workout Session" />
-  <img src="docs/screenshots/profile.png" width="30%" alt="Metrics and Charts" />
+  <img src="docs/screenshots/dashboard.jpg" width="30%" alt="Dashboard Screen" />
+  <img src="docs/screenshots/active_workout.jpg" width="30%" alt="Active Workout Screen" />
+  <img src="docs/screenshots/analysis.jpg" width="30%" alt="Analysis Screen" />
 </p>
 
 ---
@@ -47,6 +52,7 @@ Open the app, log your workout, close it. That's the whole idea. No account requ
 To build and run the application locally:
 
 ### Prerequisites
+
 - [Flutter SDK](https://docs.flutter.dev/get-started/install) (latest stable version)
 - Android Studio / VS Code with Flutter extensions
 - Android SDK (for Android build)
@@ -54,22 +60,23 @@ To build and run the application locally:
 ### Installation & Run
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/7saj/GRIT.git
    cd GRIT
    ```
-
 2. **Fetch dependencies:**
+
    ```bash
    flutter pub get
    ```
-
 3. **Run the app on a connected device:**
+
    ```bash
    flutter run
    ```
-
 4. **Build the release APK:**
+
    ```bash
    flutter build apk --release
    ```
