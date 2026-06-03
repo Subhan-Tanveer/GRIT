@@ -1,0 +1,127 @@
+name: grit
+description: A private, offline application to record workouts, body metrics, and progress
+publish_to: "none"
+version: 1.0.0+1
+homepage: https://github.com/7saj/GRIT
+repository: https://github.com/7saj/GRIT
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: ^2.5.1
+
+  # Navigation
+  go_router: ^17.1.0
+
+  # Database
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
+
+  # Preferences
+  shared_preferences: ^2.3.0
+
+  # Charts
+  fl_chart: ^1.2.0
+
+  # SVG rendering
+  flutter_svg: ^2.0.10+1
+
+  # Haptics
+  vibration: ^3.1.8
+
+  # Notifications
+  flutter_local_notifications: ^17.2.2
+  permission_handler: ^11.3.1
+
+  # File sharing
+  path_provider: ^2.1.4
+
+  # Fonts
+  # google_fonts is removed in favor of local Metropolis and Inter.
+
+  # Localization/Date formatting
+  intl: ^0.20.2
+  timezone: ^0.9.4
+  image_picker: ^1.2.1
+
+  phosphor_flutter: ^2.1.0
+  flutter_animate: ^4.5.2
+  animations: ^2.0.11
+  muscle_selector: ^1.0.4
+  package_info_plus: ^9.0.1
+  wakelock_plus: ^1.5.2
+  flutter_slidable: ^3.1.2
+  url_launcher: ^6.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_driver:
+    sdk: flutter
+  test: any
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.5
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/svg/
+    - assets/fonts/
+    - assets/fonts/Inter/
+    - assets/fonts/Metropolis-Black/
+    - assets/images/
+
+  fonts:
+    - family: Metropolis
+      fonts:
+        - asset: assets/fonts/Metropolis-Black/Metropolis-Regular.otf
+        - asset: assets/fonts/Metropolis-Black/Metropolis-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Metropolis-Black/Metropolis-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/Metropolis-Black/Metropolis-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Metropolis-Black/Metropolis-ExtraBold.otf
+          weight: 800
+        - asset: assets/fonts/Metropolis-Black/Metropolis-Black.otf
+          weight: 900
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter/Inter-VariableFont_opsz,wght.ttf
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/grit_main_logo.png"
+  adaptive_icon_background: "#E94560"
+  adaptive_icon_foreground: "assets/images/grit_foreground_logo.png"
+  notification_icon:
+    image_path: "assets/images/grit_foreground_logo.png"
+    resource_name: "ic_notification"
+
+  web:
+    generate: true
+    image_path: "assets/images/grit_main_logo.png"
+    background_color: "#E94560"
+    theme_color: "#E94560"
+
+flutter_native_splash:
+  color: "#000000"
+  image: "assets/images/grit_splash_00000.png"
+  android: true
+  ios: true
+  web: true
+  fullscreen: true
+  android_12:
+    image: "assets/images/grit_splash_00000.png"
+    color: "#000000"

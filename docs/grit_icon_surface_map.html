@@ -1,0 +1,213 @@
+
+<style>
+  .root { font-family: var(--font-sans); padding: 1rem 0; }
+  .plat-block { margin-bottom: 2rem; }
+  .plat-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .plat-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .plat-count { font-size: 11px; color: var(--color-text-secondary); }
+  .plat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .row { display: grid; grid-template-columns: 180px 90px 90px 1fr 1fr; gap: 0; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); overflow: hidden; margin-bottom: 6px; }
+  .row:hover { background: var(--color-background-secondary); }
+  .cell { padding: 10px 12px; font-size: 12px; border-right: 0.5px solid var(--color-border-tertiary); display: flex; align-items: center; }
+  .cell:last-child { border-right: none; }
+  .cell-name { font-weight: 500; color: var(--color-text-primary); font-size: 12px; flex-direction: column; align-items: flex-start; gap: 2px; }
+  .cell-sub { font-size: 11px; color: var(--color-text-secondary); font-weight: 400; }
+  .cell-dim { font-size: 12px; color: var(--color-text-secondary); font-family: var(--font-mono); }
+  .cell-fmt { font-size: 11px; }
+  .cell-mark { font-size: 12px; color: var(--color-text-secondary); }
+  .cell-where { font-size: 11px; color: var(--color-text-secondary); }
+  .badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 500; }
+  .b-red { background: #fce8ec; color: #a32d2d; }
+  .b-blue { background: var(--color-background-info); color: var(--color-text-info); }
+  .b-green { background: #eaf3de; color: #3b6d11; }
+  .b-amber { background: #faeeda; color: #854f0b; }
+  .b-gray { background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-tertiary); }
+  .icon-dot { width: 28px; height: 28px; border-radius: 6px; background: #E94560; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 10px; }
+  .icon-dot span { font-size: 14px; font-weight: 900; color: #fff; font-family: var(--font-sans); letter-spacing: -0.5px; }
+  .icon-dot-sq { border-radius: 0; }
+  .icon-dot-circ { border-radius: 50%; }
+  .icon-dot-dark { background: #0a0a0a; border: 0.5px solid var(--color-border-tertiary); }
+  .icon-dot-dark span { color: #E94560; }
+  .icon-dot-grey { background: #d4d4d4; }
+  .icon-dot-grey span { color: #1a1a1a; }
+  .icon-dot-notif { background: transparent; border: 0.5px solid var(--color-border-tertiary); }
+  .icon-dot-notif span { color: var(--color-text-primary); }
+  .icon-dot-splash { background: #0a0a0a; border-radius: 4px; border: 0.5px solid var(--color-border-tertiary); }
+  .icon-dot-splash span { color: #EEEEEE; font-size: 9px; letter-spacing: -0.5px; }
+  .thead { display: grid; grid-template-columns: 180px 90px 90px 1fr 1fr; gap: 0; padding: 6px 0; margin-bottom: 4px; }
+  .th { padding: 0 12px; font-size: 10px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+  .divider { height: 0.5px; background: var(--color-border-tertiary); margin: 1.5rem 0; }
+</style>
+<div class="root">
+  <h2 class="sr-only">GRIT app icon usage across all platforms and surfaces</h2>
+
+  <div class="thead">
+    <div class="th">surface</div>
+    <div class="th">size</div>
+    <div class="th">format</div>
+    <div class="th">what to use</div>
+    <div class="th">where it goes</div>
+  </div>
+
+  <!-- ANDROID -->
+  <div class="plat-block">
+    <div class="plat-head">
+      <div class="plat-dot" style="background:#3ddc84;"></div>
+      <span class="plat-name">Android</span>
+      <span class="plat-count">4 surfaces</span>
+    </div>
+
+    <div class="row">
+      <div class="cell cell-name">
+        <div style="display:flex;align-items:center;">
+          <div class="icon-dot icon-dot-sq"><span>G</span></div>
+          <div><span>Play Store listing</span><span class="cell-sub">Store page only</span></div>
+        </div>
+      </div>
+      <div class="cell cell-dim">512 × 512</div>
+      <div class="cell cell-fmt"><span class="badge b-red">PNG</span><br><span style="font-size:10px;color:var(--color-text-secondary);">32-bit sRGB</span></div>
+      <div class="cell cell-mark">Full GRIT wordmark · red bg · hard square · no rounding</div>
+      <div class="cell cell-where">Play Console → Store listing → App icon upload</div>
+    </div>
+
+    <div class="row">
+      <div class="cell cell-name">
+        <div style="display:flex;align-items:center;">
+          <div class="icon-dot icon-dot-circ"><span>G</span></div>
+          <div><span>Launcher icon</span><span class="cell-sub">On device home screen</span></div>
+        </div>
+      </div>
+      <div class="cell cell-dim">108dp canvas<br><span style="font-size:10px;">72dp safe zone</span></div>
+      <div class="cell cell-fmt"><span class="badge b-blue">Adaptive</span><br><span style="font-size:10px;color:var(--color-text-secondary);">FG + BG layers</span></div>
+      <div class="cell cell-mark">FG: white GRIT on transparent · BG: #E94560 XML colour · glyph inside 72dp zone</div>
+      <div class="cell cell-where">res/mipmap-*/ic_launcher_foreground.png · res/values/ic_launcher_background.xml</div>
+    </div>
+
+    <div class="row">
+      <div class="cell cell-name">
+        <div style="display:flex;align-items:center;">
+          <div class="icon-dot icon-dot-notif"><span style="color:var(--color-text-primary);font-size:13px;font-weight:900;">G</span></div>
+          <div><span>Notification icon</span><span class="cell-sub">Status bar + shade</span></div>
+        </div>
+      </div>
+      <div class="cell cell-dim">24dp<br><span style="font-size:10px;">(96px xxhdpi)</span></div>
+      <div class="cell cell-fmt"><span class="badge b-gray">VectorDrawable</span><br><span style="font-size:10px;color:var(--color-text-secondary);">XML</span></div>
+      <div class="cell cell-mark">White #FFFFFF silhouette only · transparent bg · zero colour · system tints it</div>
+      <div class="cell cell-where">res/drawable/ic_notification.xml · used in .setSmallIcon()</div>
+    </div>
+
+    <div class="row">
+      <div class="cell cell-name">
+        <div style="display:flex;align-items:center;">
+          <div class="icon-dot icon-dot-sq"><span>G</span></div>
+          <div><span>Legacy launcher</span><span class="cell-sub">Android &lt; 8.0</span></div>
+        </div>
+      </div>
+      <div class="cell cell-dim">48 – 192dp<br><span style="font-size:10px;">5 densities</span></div>
+      <div class="cell cell-fmt"><span class="badge b-amber">PNG</span><br><span style="font-size:10px;color:var(--color-text-secondary);">flat composite</span></div>
+      <div class="cell cell-mark">Red bg + white GRIT · flat single file · no transparency · no adaptive layers</div>
+      <div class="cell cell-where">res/mipmap-mdpi/ hdpi/ xhdpi/ xxhdpi/ xxxhdpi/ic_launcher.png</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- iOS -->
+  <div class="plat-block">
+    <div class="plat-head">
+      <div class="plat-dot" style="background:#0071e3;"></div>
+      <span class="plat-name">iOS</span>
+      <span class="plat-count">5 surfaces</span>
+    </div>
+
+    <div class="row">
+      <div class="cell cell-name">
+        <div style="display:flex;align-items:center;">
+          <div class="icon-dot" style="border-radius:22%;"><span>G</span></div>
+          <div><span>App Store + launcher</span><span class="cell-sub">Master — all sizes from this</span></div>
+        </div>
+      </div>
+      <div class="cell cell-dim">1024 × 1024<br><span style="font-size:10px;">Xcode generates rest</span></div>
+      <div class="cell cell-fmt"><span class="badge b-red">PNG</span><br><span style="font-size:10px;color:var(--color-text-secondary);">Display P3</span></div>
+      <div class="cell cell-mark">Full GRIT wordmark · red bg · hard square · no rounding · no alpha · 15% safe margin</div>
+      <div class="cell cell-where">AppIcon.appiconset → "Any" slot in Xcode asset catalog</div>
+    </div>
+
+    <div class="row">
+      <div class="cell cell-name">
+        <div style="display:flex;align-items:center;">
+          <div class="icon-dot icon-dot-dark" style="border-radius:22%;"><span>G</span></div>
+          <div><span>Dark mode icon</span><span class="cell-sub">iOS 18+ dark home screen</span></div>
+        </div>
+      </div>
+      <div class="cell cell-dim">1024 × 1024</div>
+      <div class="cell cell-fmt"><span class="badge b-blue">PNG alpha</span><br><span style="font-size:10px;color:var(--color-text-secondary);">transparent bg</span></div>
+      <div class="cell cell-mark">Red #E94560 GRIT · transparent background · no solid bg in file · Apple provides dark backdrop</div>
+      <div class="cell cell-where">AppIconDark.appiconset in Xcode asset catalog</div>
+    </div>
+
+    <div class="row">
+      <div class="cell cell-name">
+        <div style="display:flex;align-items:center;">
+          <div class="icon-dot icon-dot-grey" style="border-radius:22%;"><span>G</span></div>
+          <div><span>Tinted icon</span><span class="cell-sub">iOS 18+ user tint</span></div>
+        </div>
+      </div>
+      <div class="cell cell-dim">1024 × 1024</div>
+      <div class="cell cell-fmt"><span class="badge b-gray">PNG</span><br><span style="font-size:10px;color:var(--color-text-secondary);">greyscale · opaque</span></div>
+      <div class="cell cell-mark">Pure greyscale only · #D4D4D4 bg · #1A1A1A GRIT · zero chroma · fully opaque · Apple applies tint</div>
+      <div class="cell cell-where">AppIconTinted.appiconset in Xcode asset catalog</div>
+    </div>
+
+    <div class="row">
+      <div class="cell cell-name">
+        <div style="display:flex;align-items:center;">
+          <div class="icon-dot icon-dot-splash"><span>GRIT</span></div>
+          <div><span>Splash screen</span><span class="cell-sub">LaunchScreen · static</span></div>
+        </div>
+      </div>
+      <div class="cell cell-dim">Vector<br><span style="font-size:10px;">scales to any screen</span></div>
+      <div class="cell cell-fmt"><span class="badge b-green">PDF</span><br><span style="font-size:10px;color:var(--color-text-secondary);">vector for Xcode</span></div>
+      <div class="cell cell-mark">GRIT wordmark #EEEEEE · tagline #888888 · 2px #E94560 bar · #0A0A0A bg · static only</div>
+      <div class="cell cell-where">Assets.xcassets/LaunchImage.imageset/ → LaunchScreen.storyboard UIImageView</div>
+    </div>
+
+    <div class="row">
+      <div class="cell cell-name">
+        <div style="display:flex;align-items:center;">
+          <div class="icon-dot" style="border-radius:22%;width:22px;height:22px;"><span style="font-size:10px;">G</span></div>
+          <div><span>Spotlight / Settings</span><span class="cell-sub">Auto-generated by Xcode</span></div>
+        </div>
+      </div>
+      <div class="cell cell-dim">20pt – 40pt<br><span style="font-size:10px;">auto from master</span></div>
+      <div class="cell cell-fmt"><span class="badge b-gray">Auto</span><br><span style="font-size:10px;color:var(--color-text-secondary);">no extra work</span></div>
+      <div class="cell cell-mark">Xcode derives from the 1024px master · no separate design needed</div>
+      <div class="cell cell-where">Xcode handles automatically when single-size mode is used</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- BOTH -->
+  <div class="plat-block">
+    <div class="plat-head">
+      <div class="plat-dot" style="background:var(--color-text-secondary);"></div>
+      <span class="plat-name">Both platforms</span>
+      <span class="plat-count">1 surface</span>
+    </div>
+
+    <div class="row">
+      <div class="cell cell-name">
+        <div style="display:flex;align-items:center;">
+          <div class="icon-dot icon-dot-splash" style="width:28px;height:28px;"><span>GRIT</span></div>
+          <div><span>Android splash</span><span class="cell-sub">Android 12+ SplashScreen API</span></div>
+        </div>
+      </div>
+      <div class="cell cell-dim">240dp icon<br><span style="font-size:10px;">288dp window</span></div>
+      <div class="cell cell-fmt"><span class="badge b-amber">AVD XML</span><br><span style="font-size:10px;color:var(--color-text-secondary);">animated vector</span></div>
+      <div class="cell cell-mark">White GRIT on #E94560 icon bg · #0A0A0A screen bg · subtle scale-in animation</div>
+      <div class="cell cell-where">styles.xml → windowSplashScreenBackground / AnimatedIcon / IconBackgroundColor</div>
+    </div>
+  </div>
+
+</div>
