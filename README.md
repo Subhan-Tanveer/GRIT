@@ -23,6 +23,8 @@ Open the app, log your workout, close it. That's the whole idea. No account requ
 ## ✨ Features
 
 - **⚡ Fast Logging**: Record your sets, reps, and weights in seconds with a high-density, zero-friction interface.
+- **🔄 Unlimited Routines**: Create, customize, and save as many custom training routines as you need.
+- **📚 Exercise Library**: Pre-loaded with the most commonly used exercises and lifts to start logging instantly.
 - **📊 Metric Tracking**: Monitor your bodyweight and body measurements over time with clean visual charts.
 - **🔥 Personal Records**: Automatically tracks and highlights your personal records (PRs) for every lift.
 - **📅 Weekly Analytics**: See exactly what you've accomplished this week at a glance.
