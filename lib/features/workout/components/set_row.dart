@@ -231,11 +231,6 @@ class _SetRowState extends ConsumerState<SetRow> {
     final rowBg = s.isCompleted
         ? grit.accent.withValues(alpha: 0.12)
         : Colors.transparent;
-    final isActive = ref.watch(activeWorkoutProvider.select((state) {
-      final sets = state.sets[widget.sessionExerciseId] ?? [];
-      return sets.indexWhere((s) => !s.isCompleted) == widget.setIndex;
-    }));
-
     final isPreview = ref.watch(activeWorkoutProvider.select((state) => state.isPreview));
 
     final activeState = ref.watch(activeWorkoutProvider);
@@ -299,146 +294,134 @@ class _SetRowState extends ConsumerState<SetRow> {
                           BorderSide(color: grit.border, width: 1))
                   : null),
         ),
-        child: Stack(
-          children: [
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOutBack,
-              left: (isActive || s.isCompleted) ? 0 : -4,
-              top: 0,
-              bottom: 0,
-              child: Container(width: 2, color: grit.accent),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        if (isLocked) return;
-                        if (!isPreview) {
-                          await GritHaptics.mediumImpact();
-                          if (!context.mounted) return;
-                          _showSetTypeSelector(context, ref, s);
-                        }
-                      },
-                      onLongPress: () async {
-                        if (isLocked) return;
-                        if (!isPreview) {
-                          await GritHaptics.mediumImpact();
-                          if (!context.mounted) return;
-                          _showSetTypeSelector(context, ref, s);
-                        }
-                      },
-                      behavior: HitTestBehavior.opaque,
-                      child: SizedBox(
-                        width: 32,
-                        child: Center(
-                          child: _buildSetIndicator(s),
-                        ),
-                      ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    if (isLocked) return;
+                    if (!isPreview) {
+                      await GritHaptics.mediumImpact();
+                      if (!context.mounted) return;
+                      _showSetTypeSelector(context, ref, s);
+                    }
+                  },
+                  onLongPress: () async {
+                    if (isLocked) return;
+                    if (!isPreview) {
+                      await GritHaptics.mediumImpact();
+                      if (!context.mounted) return;
+                      _showSetTypeSelector(context, ref, s);
+                    }
+                  },
+                  behavior: HitTestBehavior.opaque,
+                  child: SizedBox(
+                    width: 32,
+                    child: Center(
+                      child: _buildSetIndicator(s),
                     ),
-                    if (isCardioOrTimed) ...[
-                      const SizedBox(width: 8),
-                      SizedBox(
-                        width: 152,
-                        child: _buildInput(
-                          controller: _durationCtrl,
-                          focusNode: _durationFocus,
-                          keyboard: TextInputType.text,
-                          inputFormatters: [DurationInputFormatter()],
-                          hintText: prevSet != null && prevSet.durationSeconds != null && prevSet.durationSeconds! > 0
-                              ? _formatDuration(prevSet.durationSeconds)
-                              : '00:00',
-                          textInputAction: TextInputAction.next,
-                          readOnly: isLocked,
-                          onEditingComplete: () {
-                            final setsList = ref.read(activeWorkoutProvider).sets[widget.sessionExerciseId] ?? [];
-                            if (widget.setIndex + 1 < setsList.length) {
-                              _registry.focus(widget.sessionExerciseId, widget.setIndex + 1, 'duration');
-                            } else {
-                              _durationFocus.unfocus();
-                            }
-                          },
-                          onChanged: (v) {
-                            final secs = _parseDuration(v) ?? 0;
-                            ref.read(activeWorkoutProvider.notifier).updateSet(s.copyWith(durationSeconds: secs));
-                          },
-                        ),
-                      ),
-                    ] else ...[
-                      const SizedBox(width: 8),
-                      SizedBox(
-                        width: 72,
-                        child: _buildInput(
-                          controller: _weightCtrl,
-                          focusNode: _weightFocus,
-                          keyboard:
-                              const TextInputType.numberWithOptions(decimal: true),
-                          hintText: prevSet != null
-                              ? WorkoutUtils.formatDecimal(widget.isLb ? WorkoutUtils.kgToLb(prevSet.weightKg) : prevSet.weightKg)
-                              : '0',
-                          textInputAction: TextInputAction.next,
-                          readOnly: isLocked,
-                          onEditingComplete: () {
-                            _registry.focus(widget.sessionExerciseId, widget.setIndex, 'reps');
-                          },
-                          onChanged: (v) => ref
-                              .read(activeWorkoutProvider.notifier)
-                              .updateSetField(widget.exerciseIndex, widget.setIndex,
-                                  weight: double.tryParse(v) ?? 0,
-                                  isLb: widget.isLb),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      SizedBox(
-                        width: 72,
-                        child: _buildInput(
-                          controller: _repsCtrl,
-                          focusNode: _repsFocus,
-                          keyboard: TextInputType.number,
-                          hintText: prevSet != null && prevSet.reps != null
-                              ? prevSet.reps.toString()
-                              : '0',
-                          textInputAction: TextInputAction.next,
-                          readOnly: isLocked,
-                          onEditingComplete: () {
-                            final setsList = ref.read(activeWorkoutProvider).sets[widget.sessionExerciseId] ?? [];
-                            if (widget.setIndex + 1 < setsList.length) {
-                              _registry.focus(widget.sessionExerciseId, widget.setIndex + 1, 'weight');
-                            } else {
-                              _repsFocus.unfocus();
-                            }
-                          },
-                          onChanged: (v) => ref
-                              .read(activeWorkoutProvider.notifier)
-                              .updateSetField(
-                                  widget.exerciseIndex, widget.setIndex,
-                                  reps: int.tryParse(v) ?? 0),
-                        ),
-                      ),
-                    ],
-                    const SizedBox(width: 8),
-                    SizedBox(
-                      width: 32,
-                      child: (s.isPr && s.isCompleted)
-                          ? _buildPrBadge()
-                          : const SizedBox.shrink(),
-                    ),
-                    const SizedBox(width: 8),
-                    SizedBox(
-                      width: 44,
-                      height: 44,
-                      child: Center(child: _buildCheckmark(s, isCardioOrTimed, prevSet, isLocked)),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                if (isCardioOrTimed) ...[
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    width: 152,
+                    child: _buildInput(
+                      controller: _durationCtrl,
+                      focusNode: _durationFocus,
+                      keyboard: TextInputType.text,
+                      inputFormatters: [DurationInputFormatter()],
+                      hintText: prevSet != null && prevSet.durationSeconds != null && prevSet.durationSeconds! > 0
+                          ? _formatDuration(prevSet.durationSeconds)
+                          : '00:00',
+                      textInputAction: TextInputAction.next,
+                      readOnly: isLocked,
+                      onEditingComplete: () {
+                        final setsList = ref.read(activeWorkoutProvider).sets[widget.sessionExerciseId] ?? [];
+                        if (widget.setIndex + 1 < setsList.length) {
+                          _registry.focus(widget.sessionExerciseId, widget.setIndex + 1, 'duration');
+                        } else {
+                          _durationFocus.unfocus();
+                        }
+                      },
+                      onChanged: (v) {
+                        final secs = _parseDuration(v) ?? 0;
+                        ref.read(activeWorkoutProvider.notifier).updateSet(s.copyWith(durationSeconds: secs));
+                      },
+                    ),
+                  ),
+                ] else ...[
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    width: 72,
+                    child: _buildInput(
+                      controller: _weightCtrl,
+                      focusNode: _weightFocus,
+                      keyboard:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      hintText: prevSet != null
+                          ? WorkoutUtils.formatDecimal(widget.isLb ? WorkoutUtils.kgToLb(prevSet.weightKg) : prevSet.weightKg)
+                          : '0',
+                      textInputAction: TextInputAction.next,
+                      readOnly: isLocked,
+                      onEditingComplete: () {
+                        _registry.focus(widget.sessionExerciseId, widget.setIndex, 'reps');
+                      },
+                      onChanged: (v) => ref
+                          .read(activeWorkoutProvider.notifier)
+                          .updateSetField(widget.exerciseIndex, widget.setIndex,
+                              weight: double.tryParse(v) ?? 0,
+                              isLb: widget.isLb),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    width: 72,
+                    child: _buildInput(
+                      controller: _repsCtrl,
+                      focusNode: _repsFocus,
+                      keyboard: TextInputType.number,
+                      hintText: prevSet != null && prevSet.reps != null
+                          ? prevSet.reps.toString()
+                          : '0',
+                      textInputAction: TextInputAction.next,
+                      readOnly: isLocked,
+                      onEditingComplete: () {
+                        final setsList = ref.read(activeWorkoutProvider).sets[widget.sessionExerciseId] ?? [];
+                        if (widget.setIndex + 1 < setsList.length) {
+                          _registry.focus(widget.sessionExerciseId, widget.setIndex + 1, 'weight');
+                        } else {
+                          _repsFocus.unfocus();
+                        }
+                      },
+                      onChanged: (v) => ref
+                          .read(activeWorkoutProvider.notifier)
+                          .updateSetField(
+                              widget.exerciseIndex, widget.setIndex,
+                              reps: int.tryParse(v) ?? 0),
+                    ),
+                  ),
+                ],
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: 32,
+                  child: (s.isPr && s.isCompleted)
+                      ? _buildPrBadge()
+                      : const SizedBox.shrink(),
+                ),
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: 44,
+                  height: 44,
+                  child: Center(child: _buildCheckmark(s, isCardioOrTimed, prevSet, isLocked)),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

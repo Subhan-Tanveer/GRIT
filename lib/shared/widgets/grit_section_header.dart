@@ -33,20 +33,11 @@ class GritSectionHeader extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 2,
-            height: 14,
-            decoration: BoxDecoration(
-              color: effectiveColor,
-              borderRadius: BorderRadius.zero,
-            ),
-          ),
-          const SizedBox(width: 8),
           Text(
             label.toUpperCase(),
             style: GritTextStyles.sectionHeader().copyWith(
-              color: effectiveColor == grit.accent 
-                  ? grit.textSecondary 
+              color: effectiveColor == grit.accent
+                  ? grit.textSecondary
                   : effectiveColor,
               height: 1.0, // Force tight height for better centering
             ),
