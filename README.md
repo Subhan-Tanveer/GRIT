@@ -20,9 +20,10 @@ Open the app, log your workout, close it. That's the whole idea. No account requ
 ## 📱 Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/dashboard-2.jpg" width="30%" alt="Dashboard Screen" />
-  <img src="docs/screenshots/workout.jpg" width="30%" alt="Active Workout Screen" />
-  <img src="docs/screenshots/analysis-2.jpg" width="30%" alt="Analysis Screen" />
+  <img src="docs/screenshots/dashboard-2.jpg" width="24%" alt="Dashboard Screen" />
+  <img src="docs/screenshots/workout.jpg" width="24%" alt="Active Workout Screen" />
+  <img src="docs/screenshots/analysis-2.jpg" width="24%" alt="Analysis Screen" />
+  <img src="docs/screenshots/profile.jpg" width="24%" alt="Profile Screen" />
 </p>
 
 ---
