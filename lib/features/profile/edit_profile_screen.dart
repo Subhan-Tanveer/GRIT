@@ -49,7 +49,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       if (weightAsync is AsyncData<List<BodyWeightEntry>>) {
         final entries = weightAsync.value;
         if (entries.isNotEmpty) {
-          double weight = entries.first.weightKg;
+          double weight = entries.last.weightKg;
           if (profile.weightUnit == 'LBS') {
             weight = weight * 2.20462;
           }

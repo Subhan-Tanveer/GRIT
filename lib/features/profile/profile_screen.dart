@@ -361,7 +361,7 @@ class MetricGrid extends StatelessWidget {
                       data: (entries) {
                         String currentWeight = "--";
                         if (entries.isNotEmpty) {
-                          double w = entries.first.weightKg;
+                          double w = entries.last.weightKg;
                           if (profile.weightUnit == 'LBS') w *= 2.20462;
                           currentWeight = WorkoutUtils.formatWeight(w);
                         }
