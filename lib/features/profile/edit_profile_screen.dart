@@ -82,70 +82,114 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             _buildEditorHeader(context),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: GritSpacing.horizontalMargin),
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: GritSpacing.horizontalMargin, vertical: 8),
-                    child: GritCard(
-                      title: 'IDENTITY',
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: grit.background,
-                              border: Border.all(color: grit.border),
-                              image: profile.photoPath != null
-                                  ? DecorationImage(
-                                      image: FileImage(File(profile.photoPath!)),
-                                      fit: BoxFit.cover,
-                                    )
-                                  : null,
-                            ),
-                            alignment: Alignment.center,
-                            child: profile.photoPath == null
-                                ? Text(initials,
-                                    style: GritTextStyles.displayMedium().copyWith(
-                                        color: grit.accent,
-                                        fontWeight: FontWeight.w700))
+                  GritCard(
+                    title: 'IDENTITY',
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: grit.background,
+                            border: Border.all(color: grit.border),
+                            image: profile.photoPath != null
+                                ? DecorationImage(
+                                    image: FileImage(File(profile.photoPath!)),
+                                    fit: BoxFit.cover,
+                                  )
                                 : null,
                           ),
-                          const SizedBox(width: 24),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: _pickPhoto,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 14),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: grit.accent, width: 1.5),
-                                  color: grit.accent.withValues(alpha: 0.05),
-                                ),
-                                child: Text('REPLACE PHOTO',
-                                    textAlign: TextAlign.center,
-                                    style: GritTextStyles.labelCaps().copyWith(
-                                        color: grit.accent,
-                                        fontWeight: FontWeight.w900,
-                                        letterSpacing: 1.5)),
+                          alignment: Alignment.center,
+                          child: profile.photoPath == null
+                              ? Text(initials,
+                                  style: GritTextStyles.displayMedium().copyWith(
+                                      color: grit.accent,
+                                      fontWeight: FontWeight.w700))
+                              : null,
+                        ),
+                        const SizedBox(width: 24),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: _pickPhoto,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 14),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: grit.accent, width: 1.5),
+                                color: grit.accent.withValues(alpha: 0.05),
                               ),
+                              child: Text('REPLACE PHOTO',
+                                  textAlign: TextAlign.center,
+                                  style: GritTextStyles.labelCaps().copyWith(
+                                      color: grit.accent,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 1.5)),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
+                  ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.05),
                   const SizedBox(height: 16),
-                  _field(context, 'NAME', _nameController, 'DISPLAY NAME'),
-                  _field(context, 'DATE OF BIRTH', _dobController, 'DD / MM / YYYY',
-                      onTap: () => _selectDate(context)),
-                  _field(context, 'HEIGHT (${profile.heightUnit})', _heightController,
-                      profile.heightUnit == 'CM' ? '178' : '5\' 10"'),
-                  _field(context, 'CURRENT WEIGHT (${profile.weightUnit})', _weightController,
-                      profile.weightUnit == 'KG' ? '75.0' : '165.0'),
-                  _field(context, 'TRAINING SINCE', _yearController, 'YYYY',
-                      onTap: () => _selectYear(context)),
+                  
+                  GritCard(
+                    title: 'PERSONAL INFO',
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildCardField(context, 'DISPLAY NAME', _nameController, 'NAME'),
+                        const SizedBox(height: 20),
+                        _buildCardField(context, 'DATE OF BIRTH', _dobController, 'DD / MM / YYYY',
+                            onTap: () => _selectDate(context)),
+                      ],
+                    ),
+                  ).animate().fadeIn(duration: 300.ms, delay: 100.ms).slideY(begin: 0.05),
+                  const SizedBox(height: 16),
+
+                  GritCard(
+                    title: 'BODY STATS',
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: _buildCardField(
+                            context,
+                            'HEIGHT (${profile.heightUnit})',
+                            _heightController,
+                            profile.heightUnit == 'CM' ? '178' : '5\' 10"',
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: _buildCardField(
+                            context,
+                            'WEIGHT (${profile.weightUnit})',
+                            _weightController,
+                            profile.weightUnit == 'KG' ? '75.0' : '165.0',
+                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ).animate().fadeIn(duration: 300.ms, delay: 200.ms).slideY(begin: 0.05),
+                  const SizedBox(height: 16),
+
+                  GritCard(
+                    title: 'EXPERIENCE',
+                    padding: const EdgeInsets.all(20),
+                    child: _buildCardField(
+                      context,
+                      'TRAINING SINCE',
+                      _yearController,
+                      'YYYY',
+                      onTap: () => _selectYear(context),
+                    ),
+                  ).animate().fadeIn(duration: 300.ms, delay: 300.ms).slideY(begin: 0.05),
                 ],
               ),
             ),
@@ -350,48 +394,44 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
 
-  Widget _field(BuildContext context, String label, TextEditingController ctrl, String hint,
-      {VoidCallback? onTap}) {
+  Widget _buildCardField(BuildContext context, String label, TextEditingController ctrl, String hint,
+      {VoidCallback? onTap, TextInputType? keyboardType}) {
     final grit = Theme.of(context).grit;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: GritSpacing.horizontalMargin, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: 8),
-            child: Text(label,
-                style: GritTextStyles.labelMicro().copyWith(
-                    color: grit.textSecondary,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 2)),
-          ),
-          TextField(
-            controller: ctrl,
-            readOnly: onTap != null,
-            onTap: onTap,
-            style: GritTextStyles.tileTitle().copyWith(
-                fontSize: 18, fontWeight: FontWeight.w900, letterSpacing: 0.5),
-            decoration: InputDecoration(
-              hintText: hint,
-              hintStyle: GritTextStyles.tileTitle().copyWith(
-                  fontSize: 18, color: grit.muted, fontWeight: FontWeight.w800),
-              fillColor: grit.surface2,
-              filled: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(color: grit.border, width: 1),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.zero,
-                borderSide: BorderSide(color: grit.accent, width: 1.5),
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label,
+            style: GritTextStyles.labelMicro().copyWith(
+                color: grit.textSecondary,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1.5)),
+        const SizedBox(height: 8),
+        TextField(
+          controller: ctrl,
+          readOnly: onTap != null,
+          onTap: onTap,
+          keyboardType: keyboardType,
+          style: GritTextStyles.tileTitle().copyWith(
+              fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 0.5),
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: GritTextStyles.tileTitle().copyWith(
+                fontSize: 16, color: grit.muted, fontWeight: FontWeight.w800),
+            fillColor: grit.surface2,
+            filled: true,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(color: grit.border, width: 1),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(color: grit.accent, width: 1.5),
             ),
           ),
-        ],
-      ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.05),
+        ),
+      ],
     );
   }
 
@@ -399,12 +439,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     GritHaptics.saveRoutine();
     final profile = ref.read(profileProvider);
     double? newWeight = double.tryParse(_weightController.text);
+    double? weightInKg;
 
     if (newWeight != null) {
+      weightInKg = newWeight;
       if (profile.weightUnit == 'LBS') {
-        newWeight = newWeight / 2.20462;
+        weightInKg = newWeight / 2.20462;
       }
-      await ref.read(bodyWeightDaoProvider).upsert(newWeight);
+      await ref.read(bodyWeightDaoProvider).upsert(weightInKg);
       ref.invalidate(bodyWeightProvider);
     }
 
@@ -412,6 +454,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           displayName: _nameController.text,
           heightCm:
               _parseHeightFromEditor(_heightController.text, profile.heightUnit),
+          weightKg: weightInKg,
           dateOfBirth: _dobController.text,
           trainingSinceYear: int.tryParse(_yearController.text),
         );
@@ -421,16 +464,43 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   double? _parseHeightFromEditor(String value, String unit) {
+    value = value.trim();
+    if (value.isEmpty) return null;
     if (unit == 'CM') return double.tryParse(value);
+    
     try {
-      final parts = value.split("'");
-      if (parts.length < 2) return double.tryParse(value);
-      final ft = double.parse(parts[0].trim());
-      final inchPart = parts[1].replaceAll('"', '').trim();
-      final inch = double.parse(inchPart.isEmpty ? '0' : inchPart);
-      return (ft * 12 + inch) * 2.54;
-    } catch (e) {
-      return double.tryParse(value);
+      // FT-IN format: could be 5' 10", 5'10, 5 10, 5-10, 5ft 10in, etc.
+      if (value.contains("'")) {
+        final parts = value.split("'");
+        final ft = double.tryParse(parts[0].trim());
+        if (ft != null) {
+          final inchPart = parts[1].replaceAll('"', '').replaceAll('in', '').trim();
+          final inch = double.tryParse(inchPart) ?? 0.0;
+          return (ft * 12 + inch) * 2.54;
+        }
+      }
+      
+      final regex = RegExp(r'^(\d+)\s*(?:ft|’|prime|-|\s)\s*(\d+)?\s*(?:in|”|dp|)?$');
+      final match = regex.firstMatch(value.toLowerCase());
+      if (match != null) {
+        final ft = double.tryParse(match.group(1) ?? '');
+        final inch = double.tryParse(match.group(2) ?? '') ?? 0.0;
+        if (ft != null) {
+          return (ft * 12 + inch) * 2.54;
+        }
+      }
+      
+      final singleNum = double.tryParse(value);
+      if (singleNum != null) {
+        if (singleNum < 10) {
+          return (singleNum * 12) * 2.54;
+        } else {
+          return singleNum * 2.54;
+        }
+      }
+    } catch (_) {
+      // fallback
     }
+    return double.tryParse(value);
   }
 }
