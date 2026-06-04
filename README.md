@@ -20,10 +20,26 @@ Open the app, log your workout, close it. That's the whole idea. No account requ
 ## 📱 Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/dashboard-2.jpg" width="24%" alt="Dashboard Screen" />
-  <img src="docs/screenshots/workout.jpg" width="24%" alt="Active Workout Screen" />
-  <img src="docs/screenshots/analysis-2.jpg" width="24%" alt="Analysis Screen" />
-  <img src="docs/screenshots/profile.jpg" width="24%" alt="Profile Screen" />
+  <table>
+    <tr>
+      <td align="center" width="25%">
+        <img src="docs/screenshots/dashboard-2.jpg" width="100%" alt="Dashboard Screen" /><br />
+        <sub><b>Dashboard Overview</b><br />Weekly statistics, lifting volume trends, active workout entry, and bodyweight indicators.</sub>
+      </td>
+      <td align="center" width="25%">
+        <img src="docs/screenshots/workout.jpg" width="100%" alt="Active Workout Screen" /><br />
+        <sub><b>Active Logging Screen</b><br />Streamlined set tracking, PR notifications, timer controls, and fast weight/rep entry.</sub>
+      </td>
+      <td align="center" width="25%">
+        <img src="docs/screenshots/analysis-2.jpg" width="100%" alt="Analysis Screen" /><br />
+        <sub><b>Muscle Analysis</b><br />Relational tracking of muscle volume distributions, training momentum, and status rankings.</sub>
+      </td>
+      <td align="center" width="25%">
+        <img src="docs/screenshots/profile.jpg" width="100%" alt="Profile Screen" /><br />
+        <sub><b>Profile & Settings</b><br />Biometrics configurations, historical bodyweight logs, and training experience stats.</sub>
+      </td>
+    </tr>
+  </table>
 </p>
 
 ---
