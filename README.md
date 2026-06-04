@@ -64,7 +64,7 @@ To build and run the application locally:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/7saj/GRIT.git
+   git clone https://github.com/8sujan6/GRIT.git
    cd GRIT
    ```
 2. **Fetch dependencies:**
@@ -87,7 +87,7 @@ To build and run the application locally:
 
 ## 🤝 Sponsor Development
 
-If Grit helps you build strength and you'd like to support its ongoing, active development, consider sponsoring the project on [GitHub Sponsors](https://github.com/sponsors/7saj).
+If Grit helps you build strength and you'd like to support its ongoing, active development, consider sponsoring the project on [GitHub Sponsors](https://github.com/sponsors/8sujan6).
 
 ---
 

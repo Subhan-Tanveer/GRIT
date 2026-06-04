@@ -92,7 +92,7 @@ class AboutScreen extends StatelessWidget {
           const SizedBox(height: 32),
           InkWell(
             onTap: () async {
-              final url = Uri.parse('https://github.com/sponsors/7saj');
+              final url = Uri.parse('https://github.com/sponsors/8sujan6');
               if (await canLaunchUrl(url)) {
                 GritHaptics.mediumImpact();
                 await launchUrl(url, mode: LaunchMode.externalApplication);

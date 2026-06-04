@@ -1,0 +1,43 @@
+Categories:
+  - Sports & Health
+License: GPL-3.0-only
+SourceCode: https://github.com/8sujan6/GRIT
+IssueTracker: https://github.com/8sujan6/GRIT/issues
+Changelog: https://github.com/8sujan6/GRIT/releases
+
+Name: Grit
+Summary: A private, offline application to record workouts, body metrics, and progress
+Description: |
+  Most workout apps want you to engage with them. Grit just wants you to lift and track.
+
+  Open the app, log your workout, close it. That's the whole idea. No account required, no data leaves your phone, no streaks, no badges, and no daily reminders. Just a clean, high-performance log of everything you've lifted.
+
+  Features:
+  * Fast Logging: Record your sets, reps, and weights in seconds with a high-density, zero-friction interface.
+  * Unlimited Routines: Create, customize, and save as many custom training routines as you need.
+  * Exercise Library: Pre-loaded with the most commonly used exercises and lifts to start logging instantly.
+  * Metric Tracking: Monitor your bodyweight and body measurements over time with clean visual charts.
+  * Personal Records: Automatically tracks and highlights your personal records (PRs) for every lift.
+  * Weekly Analytics: See exactly what you've accomplished this week at a glance.
+  * Absolute Privacy: Operates 100% offline. All personal biometrics and logs are stored strictly on-device in a local SQLite database.
+
+RepoType: git
+Repo: https://github.com/8sujan6/GRIT.git
+
+Builds:
+  - versionName: 1.0.0
+    versionCode: 1
+    commit: v1.0.0
+    srclibs:
+      - flutter@stable
+    rm:
+      - ios
+      - macos
+      - windows
+      - linux
+      - web
+    build:
+      - $$flutter$$/bin/flutter build apk --release
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
