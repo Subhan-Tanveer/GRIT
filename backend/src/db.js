@@ -1,10 +1,14 @@
 const Database = require('better-sqlite3');
 const path = require('path');
+const fs = require('fs');
 
-// In production (Fly.io), DATA_DIR points at the mounted persistent volume
-// so the SQLite file survives restarts/redeploys. Locally it just falls
-// back to the backend folder itself.
+// DATA_DIR can point at a mounted persistent volume so the SQLite file
+// survives restarts/redeploys (e.g. on hosts with persistent disks).
+// Falls back to the backend folder itself if unset or not yet created.
 const dataDir = process.env.DATA_DIR || path.join(__dirname, '..');
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
 const db = new Database(path.join(dataDir, 'grit.sqlite'));
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
