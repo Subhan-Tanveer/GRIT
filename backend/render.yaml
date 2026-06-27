@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: grit-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: JWT_SECRET
+        sync: false
+      - key: PORT
+        value: 4000
