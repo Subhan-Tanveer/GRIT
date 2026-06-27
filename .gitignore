@@ -54,3 +54,6 @@ desktop.ini
 .agents/
 skills-lock.json
 
+# Local AI API key config — never commit this, see ai_config.example.dart
+lib/config/ai_config.dart
+

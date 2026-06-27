@@ -13,6 +13,9 @@ import '../../core/theme/grit_theme.dart';
 import '../../shared/widgets/grit_skeleton.dart';
 import '../../app/routes.dart';
 import '../../shared/widgets/grit_button.dart';
+import '../../providers/gamification_provider.dart';
+import '../../shared/widgets/gamification_widgets.dart';
+import '../../providers/social_provider.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -51,6 +54,7 @@ class ProfileScreen extends ConsumerWidget {
         child: Column(
           children: [
             ProfileIdentityHeader(profile: profile),
+            const GamificationPreviewCard(),
             MetricGrid(
               profile: profile,
               weightHistoryAsync: weightHistory,
@@ -136,6 +140,64 @@ class ProfileScreen extends ConsumerWidget {
         InkWell(
           onTap: () {
             GritHaptics.selectionTick();
+            context.push(GritRoutes.progressPhotos);
+          },
+          child: Container(
+            height: 56,
+            padding: const EdgeInsets.symmetric(horizontal: GritSpacing.horizontalMargin),
+            decoration: BoxDecoration(
+              color: grit.background,
+              border: Border(
+                top: BorderSide(color: grit.borderHighlight, width: 1),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'PROGRESS PHOTOS',
+                  style: GritTextStyles.tileTitle().copyWith(
+                    color: grit.textSecondary,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+                Icon(PhosphorIcons.caretRight(), size: 20, color: grit.accent),
+              ],
+            ),
+          ),
+        ).animate().fadeIn(delay: 280.ms).slideY(begin: 0.1),
+        InkWell(
+          onTap: () {
+            GritHaptics.selectionTick();
+            context.push(GritRoutes.strengthStandards);
+          },
+          child: Container(
+            height: 56,
+            padding: const EdgeInsets.symmetric(horizontal: GritSpacing.horizontalMargin),
+            decoration: BoxDecoration(
+              color: grit.background,
+              border: Border(
+                top: BorderSide(color: grit.borderHighlight, width: 1),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'STRENGTH STANDARDS',
+                  style: GritTextStyles.tileTitle().copyWith(
+                    color: grit.textSecondary,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+                Icon(PhosphorIcons.caretRight(), size: 20, color: grit.accent),
+              ],
+            ),
+          ),
+        ).animate().fadeIn(delay: 290.ms).slideY(begin: 0.1),
+        InkWell(
+          onTap: () {
+            GritHaptics.selectionTick();
             context.push(GritRoutes.measurements);
           },
           child: Container(
@@ -164,6 +226,126 @@ class ProfileScreen extends ConsumerWidget {
             ),
           ),
         ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.1),
+        InkWell(
+          onTap: () {
+            GritHaptics.selectionTick();
+            context.push(GritRoutes.wellness);
+          },
+          child: Container(
+            height: 56,
+            padding: const EdgeInsets.symmetric(horizontal: GritSpacing.horizontalMargin),
+            decoration: BoxDecoration(
+              color: grit.background,
+              border: Border(
+                bottom: BorderSide(color: grit.border, width: 1),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'WELLNESS HUB',
+                  style: GritTextStyles.tileTitle().copyWith(
+                    color: grit.textSecondary,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+                Icon(PhosphorIcons.caretRight(),
+                    size: 20, color: grit.accent),
+              ],
+            ),
+          ),
+        ).animate().fadeIn(delay: 320.ms).slideY(begin: 0.1),
+        InkWell(
+          onTap: () {
+            GritHaptics.selectionTick();
+            context.push(GritRoutes.nutrition);
+          },
+          child: Container(
+            height: 56,
+            padding: const EdgeInsets.symmetric(horizontal: GritSpacing.horizontalMargin),
+            decoration: BoxDecoration(
+              color: grit.background,
+              border: Border(
+                bottom: BorderSide(color: grit.border, width: 1),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'NUTRITION',
+                  style: GritTextStyles.tileTitle().copyWith(
+                    color: grit.textSecondary,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+                Icon(PhosphorIcons.caretRight(),
+                    size: 20, color: grit.accent),
+              ],
+            ),
+          ),
+        ).animate().fadeIn(delay: 340.ms).slideY(begin: 0.1),
+        InkWell(
+          onTap: () {
+            GritHaptics.selectionTick();
+            context.push(GritRoutes.aiCoach);
+          },
+          child: Container(
+            height: 56,
+            padding: const EdgeInsets.symmetric(horizontal: GritSpacing.horizontalMargin),
+            decoration: BoxDecoration(
+              color: grit.background,
+              border: Border(
+                bottom: BorderSide(color: grit.borderHighlight, width: 1),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'GRIT AI COACH',
+                  style: GritTextStyles.tileTitle().copyWith(
+                    color: grit.textSecondary,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+                Icon(PhosphorIcons.caretRight(),
+                    size: 20, color: grit.accent),
+              ],
+            ),
+          ),
+        ).animate().fadeIn(delay: 360.ms).slideY(begin: 0.1),
+        InkWell(
+          onTap: () {
+            GritHaptics.selectionTick();
+            context.push(GritRoutes.community);
+          },
+          child: Container(
+            height: 56,
+            padding: const EdgeInsets.symmetric(horizontal: GritSpacing.horizontalMargin),
+            decoration: BoxDecoration(
+              color: grit.background,
+              border: Border(
+                bottom: BorderSide(color: grit.border, width: 1),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'COMMUNITY',
+                  style: GritTextStyles.tileTitle().copyWith(
+                    color: grit.textSecondary,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+                Icon(PhosphorIcons.caretRight(),
+                    size: 20, color: grit.accent),
+              ],
+            ),
+          ),
+        ).animate().fadeIn(delay: 380.ms).slideY(begin: 0.1),
       ],
     );
   }
@@ -185,11 +367,72 @@ class ProfileScreen extends ConsumerWidget {
                   context.push(GritRoutes.about);
                 },
               ),
+              const SizedBox(height: 12),
+              GritSecondaryButton(
+                label: 'LOG OUT',
+                icon: PhosphorIcons.signOut(),
+                onPressed: () {
+                  GritHaptics.selectionTick();
+                  ref.read(socialAuthProvider.notifier).logout();
+                },
+              ),
             ],
           ),
         ),
       ],
     ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.1);
+  }
+}
+
+class GamificationPreviewCard extends ConsumerWidget {
+  const GamificationPreviewCard({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final grit = Theme.of(context).grit;
+    final summaryAsync = ref.watch(gamificationProvider);
+
+    return InkWell(
+      onTap: () {
+        GritHaptics.selectionTick();
+        context.push(GritRoutes.gamification);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+            horizontal: GritSpacing.horizontalMargin, vertical: 16),
+        decoration: BoxDecoration(
+          color: grit.surface,
+          border: Border(bottom: BorderSide(color: grit.border, width: 1)),
+        ),
+        child: summaryAsync.when(
+          loading: () => const GritSkeleton(height: 44, width: double.infinity),
+          error: (_, __) => const SizedBox.shrink(),
+          data: (summary) => Row(
+            children: [
+              LevelBadge(levelInfo: summary.levelInfo, size: 44),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${summary.levelInfo.name} · GRIT SCORE ${summary.gritScore}',
+                      style: GritTextStyles.tileTitle().copyWith(
+                        color: levelColor(summary.levelInfo.level, grit),
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    StreakFlame(streakDays: summary.stats.currentStreak),
+                  ],
+                ),
+              ),
+              Icon(PhosphorIcons.caretRight(), size: 20, color: grit.accent),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

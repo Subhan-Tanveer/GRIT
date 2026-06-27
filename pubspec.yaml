@@ -54,9 +54,11 @@ dependencies:
   animations: ^2.0.11
   muscle_selector: ^1.0.4
   package_info_plus: ^9.0.1
-  wakelock_plus: ^1.5.2
+  wakelock_plus: ^1.4.0
   flutter_slidable: ^3.1.2
   url_launcher: ^6.3.2
+  http: ^1.2.0
+  flutter_markdown: ^0.7.4
 
 dev_dependencies:
   flutter_test:

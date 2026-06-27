@@ -28,6 +28,20 @@ import '../features/timer/timer_screen.dart';
 import '../core/theme/grit_animations.dart';
 import '../core/utils/tour_keys.dart';
 import '../features/exercises/exercise_library_screen.dart';
+import '../features/profile/gamification/gamification_screen.dart';
+import '../features/wellness/wellness_screen.dart';
+import '../features/nutrition/nutrition_screen.dart';
+import '../features/ai_coach/ai_coach_screen.dart';
+import '../features/social/community_screen.dart';
+import '../features/social/friends_screen.dart';
+import '../features/social/social_login_screen.dart';
+import '../features/social/leaderboard_screen.dart';
+import '../features/social/challenges_screen.dart';
+import '../features/progress/progress_photos_screen.dart';
+import '../features/progress/strength_standards_screen.dart';
+import '../features/nutrition/meal_plan_screen.dart';
+import '../providers/social_provider.dart';
+import '../shared/widgets/ai_floating_assistant.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'routes.dart';
 
@@ -43,10 +57,22 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: GritRoutes.dashboard,
     redirect: (context, state) {
       final onboarded = ref.read(profileProvider).onboarded;
-      final loggingIn = state.uri.path == GritRoutes.onboarding;
+      final isLoggedIn = ref.read(socialAuthProvider).isLoggedIn;
+      final onOnboarding = state.uri.path == GritRoutes.onboarding;
+      final onSocialLogin = state.uri.path == GritRoutes.socialLogin;
 
-      if (!onboarded) return GritRoutes.onboarding;
-      if (loggingIn) return GritRoutes.dashboard;
+      // Evaluate both gates every pass, in priority order, so completing one
+      // step (e.g. onboarding) always lands on the next required step (e.g.
+      // login) instead of skipping straight to the dashboard.
+      if (!onboarded) {
+        return onOnboarding ? null : GritRoutes.onboarding;
+      }
+      if (!isLoggedIn) {
+        return onSocialLogin ? null : GritRoutes.socialLogin;
+      }
+      if (onOnboarding || onSocialLogin) {
+        return GritRoutes.dashboard;
+      }
 
       return null;
     },
@@ -166,6 +192,66 @@ final routerProvider = Provider<GoRouter>((ref) {
                 _slidePage(key: state.pageKey, child: const AboutScreen()),
           ),
           GoRoute(
+            path: GritRoutes.gamification,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const GamificationScreen()),
+          ),
+          GoRoute(
+            path: GritRoutes.wellness,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const WellnessScreen()),
+          ),
+          GoRoute(
+            path: GritRoutes.nutrition,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const NutritionScreen()),
+          ),
+          GoRoute(
+            path: GritRoutes.aiCoach,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const AiCoachScreen()),
+          ),
+          GoRoute(
+            path: GritRoutes.community,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const CommunityScreen()),
+          ),
+          GoRoute(
+            path: GritRoutes.friends,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const FriendsScreen()),
+          ),
+          GoRoute(
+            path: GritRoutes.socialLogin,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const SocialLoginScreen()),
+          ),
+          GoRoute(
+            path: GritRoutes.leaderboard,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const LeaderboardScreen()),
+          ),
+          GoRoute(
+            path: GritRoutes.challenges,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const ChallengesScreen()),
+          ),
+          GoRoute(
+            path: GritRoutes.progressPhotos,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const ProgressPhotosScreen()),
+          ),
+          GoRoute(
+            path: GritRoutes.strengthStandards,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const StrengthStandardsScreen()),
+          ),
+          GoRoute(
+            path: GritRoutes.mealPlan,
+            pageBuilder: (ctx, state) => _slidePage(
+                key: state.pageKey, child: const MealPlanScreen()),
+          ),
+          GoRoute(
             path: GritRoutes.measurementsLog,
             pageBuilder: (ctx, state) => _slidePage(
               key: state.pageKey,
@@ -265,22 +351,28 @@ class _GlobalOverlayWrapper extends ConsumerWidget {
 
     // Hide Overlay if on the active workout screen itself (redundant)
     final isActiveWorkoutPage = location == GritRoutes.activeWorkout;
+    final showStatusPanel = hasActiveSession && !isActiveWorkoutPage && isTabRoute;
 
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
     final double bottomOffset = isTabRoute
         ? GritSpacing.bottomNavHeight + bottomPadding + GritSpacing.horizontalMargin + MediaQuery.of(context).viewInsets.bottom
         : bottomPadding + GritSpacing.horizontalMargin + MediaQuery.of(context).viewInsets.bottom;
 
+    final showAssistant = location != GritRoutes.activeWorkout && location != GritRoutes.aiCoach;
+    final assistantBottomOffset = showStatusPanel ? bottomOffset + 76 : bottomOffset;
+
     return Stack(
       children: [
         child,
-        if (hasActiveSession && !isActiveWorkoutPage && isTabRoute)
+        if (showStatusPanel)
           Positioned(
             left: 0,
             right: 0,
             bottom: bottomOffset,
             child: const ActiveWorkoutStatusPanel(),
           ),
+        if (showAssistant)
+          AiFloatingAssistant(currentRoute: location, bottomOffset: assistantBottomOffset),
       ],
     );
   }
@@ -296,16 +388,21 @@ class _RouterRefreshListenable extends ChangeNotifier {
     _workoutSubscription = ref.listen(activeWorkoutProvider, (_, __) {
       if (!_isDisposed) notifyListeners();
     });
+    _socialAuthSubscription = ref.listen(socialAuthProvider, (_, __) {
+      if (!_isDisposed) notifyListeners();
+    });
   }
 
   late final ProviderSubscription<dynamic> _profileSubscription;
   late final ProviderSubscription<dynamic> _workoutSubscription;
+  late final ProviderSubscription<dynamic> _socialAuthSubscription;
 
   @override
   void dispose() {
     _isDisposed = true;
     _profileSubscription.close();
     _workoutSubscription.close();
+    _socialAuthSubscription.close();
     super.dispose();
   }
 }

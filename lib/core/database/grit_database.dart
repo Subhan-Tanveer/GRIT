@@ -26,7 +26,7 @@ class GritDatabase {
     final path = join(dbPath, 'grit.db');
     final db = await openDatabase(
       path,
-      version: 34,
+      version: 38,
       onCreate: (db, version) async {
         await _onCreate(db, version);
       },
@@ -118,6 +118,77 @@ class GritDatabase {
 
   static Future<void> _runMigrations(Database db, int oldVersion, int newVersion) async {
     bool needsReseed = false;
+
+    if (oldVersion < 38) {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS progress_photos (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          date TEXT NOT NULL,
+          category TEXT NOT NULL CHECK(category IN ('front', 'side', 'back')),
+          file_path TEXT NOT NULL,
+          created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        )
+      ''');
+      await db.execute('CREATE INDEX IF NOT EXISTS idx_progress_photos_category ON progress_photos(category, date)');
+    }
+
+    if (oldVersion < 37) {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS ai_messages (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          role TEXT NOT NULL,
+          content TEXT NOT NULL,
+          created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        )
+      ''');
+      await db.execute('CREATE INDEX IF NOT EXISTS idx_ai_messages_created ON ai_messages(created_at)');
+    }
+
+    if (oldVersion < 36) {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS nutrition_logs (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          date TEXT NOT NULL,
+          meal_type TEXT NOT NULL,
+          food_name TEXT NOT NULL,
+          calories REAL NOT NULL DEFAULT 0,
+          protein REAL NOT NULL DEFAULT 0,
+          carbs REAL NOT NULL DEFAULT 0,
+          fat REAL NOT NULL DEFAULT 0,
+          quantity REAL NOT NULL DEFAULT 1,
+          unit TEXT NOT NULL DEFAULT 'serving',
+          created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        )
+      ''');
+      await db.execute('CREATE INDEX IF NOT EXISTS idx_nutrition_logs_date ON nutrition_logs(date)');
+
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS water_logs (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          date TEXT NOT NULL,
+          amount_ml INTEGER NOT NULL,
+          logged_at TEXT NOT NULL DEFAULT (datetime('now'))
+        )
+      ''');
+      await db.execute('CREATE INDEX IF NOT EXISTS idx_water_logs_date ON water_logs(date)');
+    }
+
+    if (oldVersion < 35) {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS wellness_logs (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          date TEXT NOT NULL UNIQUE,
+          mood INTEGER NOT NULL,
+          sleep_hours REAL NOT NULL DEFAULT 0,
+          sleep_quality INTEGER NOT NULL DEFAULT 3,
+          stress_level INTEGER NOT NULL DEFAULT 5,
+          notes TEXT DEFAULT '',
+          readiness_score INTEGER NOT NULL DEFAULT 0,
+          created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        )
+      ''');
+      await db.execute('CREATE INDEX IF NOT EXISTS idx_wellness_logs_date ON wellness_logs(date)');
+    }
 
     if (oldVersion < 34) {
       debugPrint('GRIT: Squashed migration running (Upgrading legacy schema < 34 to 34)...');
@@ -332,6 +403,74 @@ class GritDatabase {
 
     await db.execute(
         'CREATE INDEX IF NOT EXISTS idx_rest_days_date ON rest_days(date)');
+
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS wellness_logs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT NOT NULL UNIQUE,
+        mood INTEGER NOT NULL,
+        sleep_hours REAL NOT NULL DEFAULT 0,
+        sleep_quality INTEGER NOT NULL DEFAULT 3,
+        stress_level INTEGER NOT NULL DEFAULT 5,
+        notes TEXT DEFAULT '',
+        readiness_score INTEGER NOT NULL DEFAULT 0,
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_wellness_logs_date ON wellness_logs(date)');
+
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS nutrition_logs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT NOT NULL,
+        meal_type TEXT NOT NULL,
+        food_name TEXT NOT NULL,
+        calories REAL NOT NULL DEFAULT 0,
+        protein REAL NOT NULL DEFAULT 0,
+        carbs REAL NOT NULL DEFAULT 0,
+        fat REAL NOT NULL DEFAULT 0,
+        quantity REAL NOT NULL DEFAULT 1,
+        unit TEXT NOT NULL DEFAULT 'serving',
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_nutrition_logs_date ON nutrition_logs(date)');
+
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS water_logs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT NOT NULL,
+        amount_ml INTEGER NOT NULL,
+        logged_at TEXT NOT NULL DEFAULT (datetime('now'))
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_water_logs_date ON water_logs(date)');
+
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS ai_messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        role TEXT NOT NULL,
+        content TEXT NOT NULL,
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_ai_messages_created ON ai_messages(created_at)');
+
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS progress_photos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT NOT NULL,
+        category TEXT NOT NULL CHECK(category IN ('front', 'side', 'back')),
+        file_path TEXT NOT NULL,
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      )
+    ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_progress_photos_category ON progress_photos(category, date)');
 
     await db.execute(
         'CREATE INDEX IF NOT EXISTS idx_workout_sessions_date ON workout_sessions(started_at)');

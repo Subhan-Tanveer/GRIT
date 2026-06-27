@@ -260,6 +260,19 @@ class SessionsDao {
     };
   }
 
+  Future<Map<String, dynamic>> getStatsForPeriod(String startIso, String endIso) async {
+    final result = await _db.rawQuery('''
+      SELECT COUNT(*) as count, SUM(total_volume_kg) as volume
+      FROM workout_sessions
+      WHERE started_at >= ? AND started_at <= ? AND ended_at IS NOT NULL
+    ''', [startIso, endIso]);
+    if (result.isEmpty) return {'count': 0, 'volume': 0.0};
+    return {
+      'count': result.first['count'] ?? 0,
+      'volume': (result.first['volume'] as num?)?.toDouble() ?? 0.0,
+    };
+  }
+
   Future<List<Map<String, dynamic>>> getMuscleProgressStats(
       String muscleGroup) async {
     // Get max weight for any exercise in this group per session day
@@ -890,5 +903,74 @@ class SessionsDao {
       ORDER BY date ASC
     ''');
     return rows.map((r) => DateTime.parse(r['date'] as String)).toList();
+  }
+
+  Future<int> getTotalPrCount() async {
+    final result = await _db.rawQuery('''
+      SELECT COUNT(*) as count FROM sets s
+      JOIN session_exercises se ON s.session_exercise_id = se.id
+      JOIN workout_sessions ws ON se.session_id = ws.id
+      WHERE s.is_pr = 1 AND ws.ended_at IS NOT NULL AND s.is_completed = 1
+    ''');
+    return Sqflite.firstIntValue(result) ?? 0;
+  }
+
+  Future<int> getEarlySessionCount(int beforeHour) async {
+    final result = await _db.rawQuery('''
+      SELECT COUNT(*) as count FROM workout_sessions
+      WHERE ended_at IS NOT NULL AND CAST(strftime('%H', started_at) AS INTEGER) < ?
+    ''', [beforeHour]);
+    return Sqflite.firstIntValue(result) ?? 0;
+  }
+
+  Future<int> getLateSessionCount(int afterHour) async {
+    final result = await _db.rawQuery('''
+      SELECT COUNT(*) as count FROM workout_sessions
+      WHERE ended_at IS NOT NULL AND CAST(strftime('%H', started_at) AS INTEGER) >= ?
+    ''', [afterHour]);
+    return Sqflite.firstIntValue(result) ?? 0;
+  }
+
+  /// Exercises trained at least 3 times in the last 30 days, with their
+  /// per-session max working weight (most recent first). The AI coach uses
+  /// this to detect plateaus (same weight repeated 3+ sessions in a row).
+  /// Avoids SQL window functions since they require SQLite 3.25+, which
+  /// isn't guaranteed on this app's minSdk 26 (Android 8.0).
+  Future<Map<String, List<double>>> getRecentMaxWeightsByExercise({int days = 30}) async {
+    final cutoff = DateTime.now().subtract(Duration(days: days)).toIso8601String();
+    final rows = await _db.rawQuery('''
+      SELECT e.name as exercise_name, ws.id as session_id, ws.started_at, MAX(s.weight_kg) as max_weight
+      FROM sets s
+      JOIN session_exercises se ON s.session_exercise_id = se.id
+      JOIN exercises e ON se.exercise_id = e.id
+      JOIN workout_sessions ws ON se.session_id = ws.id
+      WHERE ws.ended_at IS NOT NULL AND ws.started_at >= ? AND s.is_completed = 1 AND s.set_type != 'warmup'
+      GROUP BY e.id, ws.id
+      ORDER BY e.name, ws.started_at DESC
+    ''', [cutoff]);
+
+    final Map<String, List<double>> byExercise = {};
+    for (final r in rows) {
+      final name = r['exercise_name'] as String;
+      final weight = (r['max_weight'] as num).toDouble();
+      byExercise.putIfAbsent(name, () => []).add(weight);
+    }
+    return byExercise;
+  }
+
+  /// Best-ever estimated 1RM for any exercise whose name matches [namePattern]
+  /// (SQL LIKE, case-insensitive) — used to compare against strength
+  /// standards for lifts like "Bench Press" regardless of which specific
+  /// variant/exercise-library entry the user actually logged.
+  Future<double> getBestE1rmForExerciseName(String namePattern) async {
+    final result = await _db.rawQuery('''
+      SELECT MAX($e1rmSql) as best_e1rm
+      FROM sets s
+      JOIN session_exercises se ON s.session_exercise_id = se.id
+      JOIN exercises e ON se.exercise_id = e.id
+      JOIN workout_sessions ws ON se.session_id = ws.id
+      WHERE LOWER(e.name) LIKE LOWER(?) AND ws.ended_at IS NOT NULL AND s.is_completed = 1 AND s.set_type != 'warmup'
+    ''', [namePattern]);
+    return (result.first['best_e1rm'] as num?)?.toDouble() ?? 0.0;
   }
 }

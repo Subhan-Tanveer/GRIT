@@ -28,6 +28,18 @@ class GritRoutes {
   static const String measurements = '/profile/measurements';
   static const String measurementsLog = '/profile/log-measurements';
   static const String about = '/profile/about';
+  static const String gamification = '/profile/gamification';
+  static const String wellness = '/wellness';
+  static const String nutrition = '/nutrition';
+  static const String aiCoach = '/ai-coach';
+  static const String community = '/community';
+  static const String friends = '/community/friends';
+  static const String socialLogin = '/community/login';
+  static const String leaderboard = '/community/leaderboard';
+  static const String challenges = '/community/challenges';
+  static const String progressPhotos = '/profile/progress-photos';
+  static const String strengthStandards = '/profile/strength-standards';
+  static const String mealPlan = '/nutrition/meal-plan';
 
   // Helper for Shell logic
   static bool isTabRoute(String path) {

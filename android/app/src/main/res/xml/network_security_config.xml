@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Allows plain HTTP (cleartext) only to the local dev backend's LAN IP.
+  This is for local development/testing of the GRIT social backend, which
+  runs on a plain HTTP Node server on the developer's machine. Replace with
+  a proper HTTPS endpoint before any real deployment.
+-->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">192.168.10.10</domain>
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <domain includeSubdomains="false">localhost</domain>
+    </domain-config>
+</network-security-config>

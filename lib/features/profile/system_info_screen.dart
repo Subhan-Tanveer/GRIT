@@ -71,11 +71,11 @@ class AboutScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            "SUJAN A JAIN",
+            "SUBHAN TANVEER",
             style: GritTextStyles.metric(32, weight: FontWeight.w900, color: grit.textPrimary),
           ),
           const SizedBox(height: 24),
-          
+
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -84,15 +84,15 @@ class AboutScreen extends StatelessWidget {
             ),
             child: Text(
               "Most workout apps want you to engage with them. GRIT just wants you to lift.\n\n"
-              "Log your sets and reps, track your personal records, monitor your bodyweight over time, and see exactly what you've done this week. Open the app, log your workout, close it. That's the whole idea.\n\n"
-              "No account required. No data leaves your phone. No streaks, no badges, no daily reminders. Just a clean log of everything you've lifted.",
+              "Log your sets and reps, track your personal records, monitor your bodyweight over time, and watch your GRIT rank climb as you stay consistent. Open the app, log your workout, close it. That's the whole idea.\n\n"
+              "No account required. No data leaves your phone. Just a clean log of everything you've lifted — with streaks and achievements to keep you honest.",
               style: GritTextStyles.label(14, color: grit.textSecondary, height: 1.6),
             ),
           ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.1),
           const SizedBox(height: 32),
           InkWell(
             onTap: () async {
-              final url = Uri.parse('https://github.com/sponsors/8sujan6');
+              final url = Uri.parse('https://github.com/Subhan-Tanveer');
               if (await canLaunchUrl(url)) {
                 GritHaptics.mediumImpact();
                 await launchUrl(url, mode: LaunchMode.externalApplication);
@@ -111,7 +111,7 @@ class AboutScreen extends StatelessWidget {
                   Icon(PhosphorIcons.githubLogo(PhosphorIconsStyle.fill), color: Colors.white, size: 20),
                   const SizedBox(width: 12),
                   Text(
-                    "SUPPORT ONGOING DEVELOPMENT",
+                    "VIEW ON GITHUB",
                     style: GritTextStyles.metric(13, weight: FontWeight.w900, color: Colors.white, letterSpacing: 1.0),
                   ),
                 ],
