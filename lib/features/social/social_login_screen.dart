@@ -117,6 +117,13 @@ class _SocialLoginScreenState extends ConsumerState<SocialLoginScreen> {
               isLoading: _isLoading,
               onPressed: _submit,
             ),
+            if (_isLoading) ...[
+              const SizedBox(height: 12),
+              Text(
+                'The server may take up to a minute to wake up if it was idle — hang tight.',
+                style: GritTextStyles.label(11, color: grit.muted, height: 1.4),
+              ),
+            ],
             const SizedBox(height: 16),
             Center(
               child: GestureDetector(
